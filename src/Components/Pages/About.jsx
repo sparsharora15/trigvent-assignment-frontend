@@ -8,7 +8,6 @@ const About = () => {
     const response = await getTableData(GetRule("text").rule);
     if (response.status === 200) {
       setTextData(response.data);
-      //   console.log(response.data);
       const fontSize = GetRule("text");
       setFontSize(fontSize.params);
     }
@@ -28,7 +27,4 @@ const About = () => {
 
 export default About;
 
-//
 
-// const DataTable = () => {
-//
