@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import Header from "./Components/Header";
+import SidderNav from "./Components/SidderNav";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DataTable from "./Components/Pages/DataTable";
+import BarChart from "./Components/Pages/BarChart";
+import About from "./Components/Pages/About";
+import { useEffect } from "react";
+import { getTableData } from "./Config/API";
 function App() {
+  async function getMenuData() {
+    const response = await getTableData("/api/getMenu");
+    localStorage.setItem("menuData", JSON.stringify(response.data));
+  }
+  useEffect(() => {
+    getMenuData();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<SidderNav />}>
+            <Route path="/" element={<DataTable />} />
+            <Route path="/chart" element={<BarChart />} />
+            <Route path="/about" element={<About />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
